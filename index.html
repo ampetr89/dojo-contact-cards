@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>My Contacts</title>
+	<link rel="icon" href="icon.png">
+	<link rel="stylesheet" href="style.css">
+	<script type="text/javascript" src='http://code.jquery.com/jquery-1.10.2.min.js'></script> 
+	<script type="text/javascript">
+		
+		$(document).ready(function(){
+			var contacts = [];
+			var nextId = 0;
+			var fields = [];
+			inputs = $('input[type!="submit"], textarea');
+			for(var i=0; i<inputs.length; i++){
+				fields.push(inputs[i].id);
+			}
+			console.log(fields);
+			var nfields = fields.length;
+
+			$('form').submit(function(){
+				return false;
+			});
+
+			function makeCard(contact){
+				console.log('adding to the book:')
+				console.log(contact);
+				$('#book ul').append('<li uid="'+contact['uid']+'">'+'</li>');
+				newContact= $('#book ul').children().last();
+
+				fullName = contact['first-name']+' '+contact['last-name'];
+				desc = contact['description'];
+				if(typeof(desc)=='undefined' | desc==''){
+					desc = 'No description provided.'
+				}
+				newContact.data({
+					'first-name':contact['first-name'],
+					'last-name': contact['last-name'],
+
+					'front':'<h3>'+fullName+'</h3> <a href="#" class="back">Click for description</a>',
+					'back': '<p>'+desc+'</p><a href="#" class="front">Back to name</a>'
+					})
+				
+				newContact.html(newContact.data('front'));
+			}
+			$('input[type="submit"]').click(function(){
+				console.log('Form submitted')
+				var newContact = {'uid': nextId};
+				for(var i=0; i<nfields; i++){
+					newContact[fields[i]] = $('#'+fields[i]).val();
+				}
+				contacts.push(newContact);
+				makeCard(newContact); // adds to the book
+				nextId++;
+			})
+
+			$(document).on('click', '#book .back', function(){
+				data=$(this).parent().data();
+				
+				$(this).parent().css({'overflow-y': 'scroll'});
+
+				$(this).parent().html(data['back']);
+			})
+
+			$(document).on('click', '#book .front', function(){
+				data=$(this).parent().data();
+
+				$(this).parent().css({'overflow-y': 'hidden'});
+				$(this).parent().html(data['front']);
+
+			})
+		})
+
+	</script>
+</head>
+<body>
+
+<section id="entry">
+	<h1>Create a New Contact</h1>
+	<div>
+
+		<form action="index.html">
+		First Name: <input type="text" id="first-name" required><br>
+		Last Name: <input type="text" id="last-name" required><br>
+		Description:
+		<textarea placeholder="Enter description" rows=5 cols=45 id="description"></textarea>
+
+		<input type="submit" value="Add Contact">
+		</form>
+	</div>
+</section>
+
+<section id="book">
+	<h1>My Contacts</h1>
+	<!-- TODO put a text input with a search -->
+	<div>
+		<ul>
+		</ul>
+	</div>	
+</section>
+
+</body>
+</html>

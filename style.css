@@ -1,0 +1,48 @@
+*{
+	padding: 0px;
+	margin: 0px;
+	font-family: sans-serif;
+}
+
+section{
+	display: inline-block;
+	vertical-align: top;
+	height: 500px;
+	margin: 10px;
+	padding: 20px;
+}
+
+#entry{
+	width: 30%;
+	border: green 2px solid;
+}
+#book{
+	width: 50%;
+	border: black 2px solid;
+	overflow-y: scroll;
+}
+
+input{
+	margin: 5px;
+}
+textarea{
+	display: block;
+}
+
+ul{
+	list-style: none;
+}
+
+ul li{
+	height: 80px;
+	padding: 4px 10px;
+	border: 2px black dashed;
+	margin-bottom: 20px;
+}
+
+ul li p{
+	margin-bottom: 5px;
+}
+section div{
+	margin-top: 20px;
+}
